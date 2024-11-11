@@ -26,6 +26,7 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -64,11 +65,16 @@ const LoginPage = () => {
     } catch (error) {
       console.log(error)
       // Handle error
+      setError("password", {
+        type: "manual",
+        message: error?.response?.data.message || error.message
+      })
       if (axios.isAxiosError(error)) {
         console.error(
           "Error submitting form:",
           error.response?.data || error.message
         );
+
       } else {
         console.error("Unexpected error:", error);
       }
