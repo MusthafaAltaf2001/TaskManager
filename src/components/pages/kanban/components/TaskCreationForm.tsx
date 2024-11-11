@@ -94,7 +94,7 @@ const TaskCreationForm: React.FC<TaskCreationFormProps> = ({
   };
 
   return (
-    <div className="flex justify-between items-center mb-6">
+    <div className="flex flex-col justify-between items-center mb-6 gap-3">
       <Dialog
         open={isModalOpen}
         onOpenChange={(open) => {
@@ -217,7 +217,7 @@ const TaskCreationForm: React.FC<TaskCreationFormProps> = ({
         </DialogContent>
       </Dialog>
       {/* Filters */}
-      <div className="flex items-center space-x-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <Select
           onValueChange={(value) =>
             setFilterCriteria({ ...filterCriteria, sortBy: value })

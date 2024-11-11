@@ -207,8 +207,8 @@ const Kanban = () => {
 
 
   return (
-    <div className="transition-all ease-in-out duration-500">
-      <div className="container mx-auto p-6">
+    <div className="transition-all ease-in-out duration-500 padding-horizontal">
+      <div className="container mx-auto">
         <h1 className="text-4xl font-extrabold mb-6 text-center tracking-tight text-gray-800 dark:text-white transition-colors duration-300">
           Task Manager
         </h1>

@@ -60,7 +60,7 @@ const SignUpPage = () => {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center">
-            Join TaskFlow
+            Join Task Manager
           </CardTitle>
         </CardHeader>
         <CardContent>

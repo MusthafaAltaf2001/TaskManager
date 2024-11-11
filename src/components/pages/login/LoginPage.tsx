@@ -80,7 +80,7 @@ const LoginPage = () => {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center">
-            Welcome to TaskFlow
+            Welcome to Task Manager
           </CardTitle>
         </CardHeader>
         <CardContent>

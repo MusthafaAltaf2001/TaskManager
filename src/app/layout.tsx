@@ -17,9 +17,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "TaskFlow",
+  title: "Task manager",
   description:
-    "TaskFlow is used for a smooth flow of tasks and efficient management.",
+    "Task Manager is used for a smooth flow of tasks and efficient management.",
 };
 
 export default function RootLayout({

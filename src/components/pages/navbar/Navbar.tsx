@@ -44,7 +44,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="border-b-2 rounded-b-md p-4 border-slate-700 px-10">
+    <div className="border-b-2 rounded-b-md border-slate-700 padding-horizontal">
       <div className="flex justify-between items-center">
         <div
           className="flex items-center gap-1 cursor-pointer"

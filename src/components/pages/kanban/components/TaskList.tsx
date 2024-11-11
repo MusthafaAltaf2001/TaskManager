@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import TaskListCard from "./TaskListCard";
 import { Task } from "@/lib/task";
 
@@ -13,23 +13,6 @@ const TaskList: React.FC<TaskListProps> = ({
   openEditModal,
   editTask,
 }) => {
-  // const updateTask = useCallback(
-  //   (updatedTask: Task) => {
-  //     setTasks((prevTasks) =>
-  //       prevTasks.map((task) =>
-  //         task.id === updatedTask.id ? updatedTask : task
-  //       )
-  //     );
-  //   },
-  //   [setTasks]
-  // );
-
-  // const deleteTask = useCallback(
-  //   (id: string) => {
-  //     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-  //   },
-  //   [setTasks]
-  // );
 
   const sortedTasks = [...tasks].sort((a, b) => {
     const priorityOrder = { Low: 1, Medium: 2, High: 3 };
@@ -37,13 +20,11 @@ const TaskList: React.FC<TaskListProps> = ({
   });
 
   return (
-    <div className="flex flex-wrap -mx-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
       {sortedTasks.map((task) => (
-        <div key={task._id} className="w-full sm:w-1/3 px-2 mb-4 ">
+        <div key={task._id} className="w-full">
           <TaskListCard
             task={task}
-            // updateTask={updateTask}
-            // deleteTask={deleteTask}
             editTask={editTask}
             openEditModal={openEditModal}
           />

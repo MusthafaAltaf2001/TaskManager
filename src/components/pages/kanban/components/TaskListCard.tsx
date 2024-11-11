@@ -10,8 +10,6 @@ import { undo } from "redux-undo-action";
 
 interface TaskCardProps {
   task: Task;
-  updateTask: (task: Task) => void;
-  deleteTask: (id: string) => void;
   editTask: (task: Task) => void;
   openEditModal?: (task: Task) => void;
 }
@@ -66,14 +64,6 @@ const TaskListCard: React.FC<TaskCardProps> = ({
       console.error("Error editing task:", error);
     }
   };
-
-  // const handleUpdateTask = async (task: Task) => {
-  //   // Todo: update state
-  //   dispatch(updateTask(task.id))
-
-  //   // Todo: update database
-
-  // }
 
   const handleDeleteClick = async (task: Task) => {
     const deleteTaskAction = deleteTask(task._id)
