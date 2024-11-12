@@ -87,7 +87,7 @@ export const signIn = async (req: Request, res: Response) => {
   }
 };
 
-// Get User Profile (Protected route example)
+// Get User Profile
 export const getUserProfile = async (req: Request, res: Response) => {
   // console.log(req.cookies);
 
@@ -211,7 +211,7 @@ export const resetPassword = async (req: Request, res: Response) => {
   }
 }
 
-// signout user 
+// signout user. Clear cookie in the client
 export const signout = async (req: Request, res: Response) => {
   try {
     res

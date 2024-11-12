@@ -203,6 +203,7 @@ const Kanban = () => {
 
         <div>
           {tasks.length === 0 ?
+            // Lottie file animation is displayed when there are no tasks available
             <div className="">
               <Player
                 autoplay

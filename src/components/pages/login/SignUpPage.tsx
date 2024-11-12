@@ -29,6 +29,9 @@ const SignUpPage = () => {
     mode: "onChange",
   });
 
+  /**
+   * Handles user signup
+   */
   const onSubmit = async (data: SignUpFormValues) => {
     try {
       await signupApi(data)

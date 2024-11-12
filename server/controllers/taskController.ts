@@ -37,6 +37,7 @@ export const createTask = async (req: Request, res: Response) => {
   }
 };
 
+// Update task
 export const updateTask = async (req: Request, res: Response) => {
   try {
     // Validate the request body
@@ -95,14 +96,6 @@ export const deleteTask = async (req: Request, res: Response) => {
     if (!deletedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
-
-    // // Optionally, push the updated task reference into the user's tasks array (if needed)
-    // await User.findByIdAndUpdate(
-    //   userId,
-    //   { $addToSet: { tasks: deletedTask._id } }, // Use $addToSet to avoid duplicates
-    //   { new: true }
-    // )
-
 
     res
       .status(200)

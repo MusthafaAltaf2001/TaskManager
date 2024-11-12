@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+/**
+ * Zod validation for user schemas
+ */
+
 export const signUpSchema = z.object({
     username: z.string().min(1, "User Name is required"),
     email: z.string().email("Invalid email address"),

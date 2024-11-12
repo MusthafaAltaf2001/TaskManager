@@ -1,4 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+/**
+ * Reducers for handling user states
+ */
 
 interface UserState {
   user: {

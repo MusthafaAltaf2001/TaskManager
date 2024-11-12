@@ -2,12 +2,14 @@ import { LoginFormValues, SignUpFormValues } from '@/types';
 
 import { axiosInstance } from './axios';
 
+/**
+ * All api endpoints relating to the users endpoint
+ * Consists of getting the user profile, signing in, signup and forgot password endpoints
+ */
+
 export const loginUserApi = async (data: LoginFormValues) => {
     try {
-        const response = await axiosInstance.post(
-            `/api/users/login`,
-            data,
-        );
+        const response = await axiosInstance.post(`/api/users/login`, data);
         return response.data
     } catch (error) {
         throw error

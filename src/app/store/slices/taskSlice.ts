@@ -1,5 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
 import { UniqueIdentifier } from "@dnd-kit/core";
+
+/**
+ * Reducers to handle task adding, updating and deleting
+ */
 
 export type Task = {
   _id: UniqueIdentifier;

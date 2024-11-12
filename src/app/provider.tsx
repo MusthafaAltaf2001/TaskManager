@@ -9,6 +9,9 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
+/**
+ * Used to wrap the root file layout.tsx
+ */
 export function Providers({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
   const { toast } = useToast()

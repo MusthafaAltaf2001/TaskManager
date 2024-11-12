@@ -32,6 +32,10 @@ const LoginPage = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  /**
+   * handles login form submission
+   * @param data 
+   */
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const { user } = await loginUserApi(data)

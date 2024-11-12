@@ -1,7 +1,14 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
+
 import jwt from "jsonwebtoken";
+
 const JWT_SECRET = process.env.JWT_SECRET || "taskflow_bdw0w";
 
+/**
+ * Middleware function that is run before calling a protected route
+ * Checks if jwt token recieved from client is valid and not expired
+ * Sends the JWT token to the protected route
+ */
 export const authenticate = (
   req: Request,
   res: Response,
