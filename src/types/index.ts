@@ -1,19 +1,5 @@
-import { UniqueIdentifier } from "@dnd-kit/core";
+import { LoginFormValues } from "./user"
+import { Task } from "./task";
+import { TaskFormValues } from "./task";
 
-
-export interface Task {
-    _id: UniqueIdentifier;
-    title: string;
-    description?: string;
-    status: "To Do" | "In Progress" | "Completed";
-    priority: "Low" | "Medium" | "High";
-    dueDate?: Date;
-}
-
-export interface TaskFormValues {
-    title: string;
-    description?: string;
-    status: "To Do" | "In Progress" | "Completed";
-    priority: "Low" | "Medium" | "High";
-    dueDate?: Date;
-}
+export type { Task, TaskFormValues, LoginFormValues }

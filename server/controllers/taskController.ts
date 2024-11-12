@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
+
 import { Task } from "../models/taskSchema";
 import { User } from "../models/userSchema";
-import { taskSchema } from "../lib/taskType";
 import { ZodError } from "zod";
+import { taskSchema } from "../lib/taskType";
 
 // Create a new task
 export const createTask = async (req: Request, res: Response) => {
@@ -120,10 +121,16 @@ export const getUserTasks = async (req: Request, res: Response) => {
     //@ts-ignore
     const userId = req.user?.userId;
 
-    const user = await User.findById(userId).populate("tasks");
+    const user = await User.findById(userId).populate({
+      path: "tasks",
+      match: {
+        isDeleted: { $ne: true } // Gets all the tasks that are not deleted
+      }
+    })
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
 
     res.status(200).json(user.tasks);
   } catch (error) {

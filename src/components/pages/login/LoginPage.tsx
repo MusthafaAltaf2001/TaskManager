@@ -6,17 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { LoginFormValues } from "@/types/user";
 import React from "react";
 import axios from "axios";
+import { getTasksApi } from "@/api/task";
 import { loginSchema } from "@/schema";
+import { loginUserApi } from "@/api/user";
+import { setTasks } from "@/app/store/slices/taskSlice";
 import { setUser } from "@/app/store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
   const navigate = useRouter();
@@ -33,19 +34,11 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
-        data,
-        {
-          withCredentials: true, // Set to true to allow cookies to be sent with the request
-        }
-      );
-      console.log(response)
-      // Handle success
-      console.log(response.data);
-      const { user } = response.data;
+      const { user } = await loginUserApi(data)
+      const tasks = await getTasksApi()
 
-      dispatch(setUser({ user }));
+      dispatch(setUser(user));
+      dispatch(setTasks(tasks))
       navigate.push("/");
     } catch (error) {
       console.log(error)

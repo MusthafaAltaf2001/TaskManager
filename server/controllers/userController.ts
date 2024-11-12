@@ -1,11 +1,12 @@
+import { EmailParams, Recipient, Sender } from "mailersend";
 import { Request, Response } from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { signInSchema, signUpSchema } from "../lib/userType";
+
 import { User } from "../models/userSchema";
-import { signUpSchema, signInSchema } from "../lib/userType";
-import { EmailParams, Sender, Recipient } from "mailersend";
-import { mailerSend } from "../lib/mailersendConfig";
+import bcrypt from "bcryptjs";
 import { getForgotPasswordEmail } from "../lib/emailTemplate";
+import jwt from "jsonwebtoken";
+import { mailerSend } from "../lib/mailersendConfig";
 
 // JWT secret
 const JWT_SECRET = process.env.JWT_SECRET || "taskflow_bdw0w";
@@ -51,7 +52,7 @@ export const signIn = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // Check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email })
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }

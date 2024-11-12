@@ -1,15 +1,25 @@
 import { Task, TaskFormValues } from '../types';
-import axios from 'axios'
+
+import { axiosInstance } from './axios';
+
+export const getTasksApi = async () => {
+    try {
+        const response = await axiosInstance.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tasks/`,
+        )
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
 
 export const addTaskApi = async (newTask: TaskFormValues) => {
     try {
-        await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tasks/`,
+        const response = await axiosInstance.post(
+            `/api/tasks/`,
             newTask,
-            {
-                withCredentials: true
-            }
         )
+        return response.data
     } catch (error) {
         throw error
     }
@@ -17,13 +27,11 @@ export const addTaskApi = async (newTask: TaskFormValues) => {
 
 export const updateTaskApi = async (newTask: Task) => {
     try {
-        await axios.put(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tasks/${newTask._id}`,
+        const response = await axiosInstance.put(
+            `/api/tasks/${newTask._id}`,
             newTask,
-            {
-                withCredentials: true
-            }
         )
+        return response.data
     } catch (error) {
         throw error
     }
@@ -31,12 +39,10 @@ export const updateTaskApi = async (newTask: Task) => {
 
 export const deleteTaskApi = async (task: Task) => {
     try {
-        await axios.delete(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tasks/${task._id}`,
-            {
-                withCredentials: true
-            }
+        const response = await axiosInstance.delete(
+            `/api/tasks/${task._id}`,
         )
+        return response.data
     } catch (error) {
         throw error
     }
