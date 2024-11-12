@@ -1,5 +1,4 @@
-import { LoginFormValues } from "./user"
-import { Task } from "./task";
-import { TaskFormValues } from "./task";
+import { ForgotPasswordValues, LoginFormValues, SignUpFormValues } from "./user"
+import { Task, TaskFormValues } from "./task";
 
-export type { Task, TaskFormValues, LoginFormValues }
+export type { Task, TaskFormValues, LoginFormValues, ForgotPasswordValues, SignUpFormValues }

@@ -3,18 +3,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
+import { ForgotPasswordValues } from "@/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from 'react'
 import axios from 'axios'
-import { forgotPasswordSchema } from '@/schema';
+import { forgotPasswordApi } from "@/api";
+import { forgotPasswordSchema } from "@/schema";
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { useToast } from "@/hooks/use-toast";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 
 const ForgotPassword = () => {
     const {
@@ -26,24 +24,15 @@ const ForgotPassword = () => {
         resolver: zodResolver(forgotPasswordSchema),
     });
     const { toast } = useToast()
-    const router = useRouter()
 
     const onSubmit = async (data: string) => {
         try {
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/forgotPassword`,
-                data,
-                {
-                    withCredentials: true
-                }
-            );
-            console.log(response)
+            await forgotPasswordApi(data)
             toast({
                 title: "Success",
                 description: "A password reset link has been sent to your email",
                 variant: "default",
             });
-            router.push('/reset-password')
         } catch (error: any) {
             console.log(error)
             // Handle error
@@ -82,9 +71,9 @@ const ForgotPassword = () => {
                                 {...register("email")}
                                 className={`border ${errors.email ? "border-red-500" : ""}`}
                             />
-                            {/* {errors.email && (
+                            {errors.email && (
                                 <p className="text-xs text-red-400">{errors.email.message}</p>
-                            )} */}
+                            )}
                         </div>
                         <Button type="submit" className="w-full">
                             Submit

@@ -1,11 +1,14 @@
-import { addTaskApi } from "./task";
-import { deleteTaskApi } from "./task";
-import { getTasksApi } from "./task";
-import { updateTaskApi } from "./task";
+import { addTaskApi, deleteTaskApi, getTasksApi, updateTaskApi } from "./task";
+import { forgotPasswordApi, getUserProfileApi, loginUserApi, resetPasswordApi, signoutApi } from "./user";
 
 export {
     addTaskApi,
     deleteTaskApi,
     getTasksApi,
-    updateTaskApi
+    updateTaskApi,
+    loginUserApi,
+    forgotPasswordApi,
+    resetPasswordApi,
+    getUserProfileApi,
+    signoutApi
 }

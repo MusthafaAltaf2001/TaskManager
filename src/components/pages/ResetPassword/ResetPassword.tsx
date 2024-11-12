@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from 'react'
 import axios from 'axios'
+import { resetPasswordApi } from "@/api";
 import { resetPasswordSchema } from '@/schema';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -30,11 +31,7 @@ const ResetPassword = ({ token }: { token: string }) => {
 
     const onSubmit = async (data: string) => {
         try {
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/resetPassword/${token}`,
-                data,
-            );
-            console.log(response)
+            await resetPasswordApi(data)
             toast({
                 title: "Success",
                 description: "Your password has been reset successfully",

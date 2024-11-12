@@ -1,44 +1,35 @@
 "use client";
 
-import { API_URLS } from "@/constants";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
-import axios from "axios";
+import { getUserProfileApi } from "@/api";
 import { setTasks } from "@/app/store/slices/taskSlice";
 import { setUser } from "@/app/store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const { toast } = useToast()
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}${API_URLS.PROFILE}`,
-        {
-          withCredentials: true,
-        }
-      )
-      console.log(response.data.user)
-      dispatch(setUser(response.data.user))
-      dispatch(setTasks(response.data.tasks))
+      const { user, tasks } = await getUserProfileApi()
+      dispatch(setUser(user))
+      dispatch(setTasks(tasks))
     } catch (error) {
       console.log(error)
-      console.log(error.response?.status)
-
-      // Token expired or invalid. User will be redirected to login page
-      if (error.response?.status === 401) {
-        // router.push("/login")
-      }
+      toast({
+        title: "Error",
+        description: "An unexpected error occured. Couldn't retrieve data",
+        variant: "destructive",
+      });
     }
   };
 
   useEffect(() => {
     fetchUserProfile();
-    // }
   }, [dispatch]);
 
   return (

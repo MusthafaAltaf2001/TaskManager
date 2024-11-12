@@ -1,32 +1,25 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
-import Flow from "@/assets/flow2.png";
+
 import { Button } from "@/components/ui/button";
-import { Theme } from "@/components/theme";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import Flow from "@/assets/flow2.png";
+import Image from "next/image";
 import Link from "next/link";
-// import { useSession } from "next-auth/react";
-// import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
-import { useDispatch } from "react-redux";
+import { Theme } from "@/components/theme";
 import { clearUser } from "@/app/store/slices/userSlice";
+import { signoutApi } from "@/api";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { CgProfile } from "react-icons/cg";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
-import axios from 'axios'
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  // const session = useSession();
   const userState = useSelector((state: RootState) => state.user);
   const { user } = userState;
-  console.log(user)
 
-  // console.log(session);
-  //   const route = useRouter();
   const dispatch = useDispatch();
   const navigate = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +35,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     dispatch(clearUser());
     try {
-      await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/signout`, { withCredentials: true })
+      await signoutApi()
       navigate.push("/login");
     } catch (error) {
       console.log(error)
@@ -85,30 +78,6 @@ const Navbar = () => {
                   {isOpen && (
                     <div className="absolute top-full right-0 mt-2 w-40 bg-slate-900 text-white font-medium rounded-md border-gray border-2 z-10">
                       <ul>
-                        <li
-                          className="py-2 px-4 hover:bg-slate-700 cursor-pointer"
-                          onClick={() => {
-                            handleItemClick();
-                            navigate.push("/profile");
-                          }}
-                        >
-                          <div className="flex items-center gap-4">
-                            <CgProfile size={20} />
-                            <button>Profile</button>
-                          </div>
-                        </li>
-                        <li
-                          className="py-2 px-4 hover:bg-slate-700 cursor-pointer"
-                          onClick={() => {
-                            handleItemClick();
-                            navigate.push("/kanban-dashboard");
-                          }}
-                        >
-                          <div className="flex items-center gap-4">
-                            <MdOutlineSpaceDashboard size={20} />
-                            <button>Dashboard</button>
-                          </div>
-                        </li>
                         <li className="block sm:hidden relative">
                           <div className="flex items-center gap-4">
                             <Theme />
