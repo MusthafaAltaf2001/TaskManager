@@ -17,6 +17,7 @@ import { clearUser } from "@/app/store/slices/userSlice";
 import { useRouter } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
+import axios from 'axios'
 
 const Navbar = () => {
   // const session = useSession();
@@ -38,9 +39,14 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(clearUser());
-    navigate.push("/login");
+    try {
+      await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/signout`, { withCredentials: true })
+      navigate.push("/login");
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (

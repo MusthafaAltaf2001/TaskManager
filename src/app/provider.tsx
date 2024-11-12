@@ -31,7 +31,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
       // Token expired or invalid. User will be redirected to login page
       if (error.response?.status === 401) {
-        router.push("/login")
+        // router.push("/login")
       }
     }
   };

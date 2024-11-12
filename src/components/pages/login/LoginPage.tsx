@@ -15,6 +15,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/app/store/slices/userSlice";
+import Link from "next/link";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
@@ -33,15 +34,9 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    if (!backendUrl) {
-      console.error("NEXT_PUBLIC_BACKEND_URL is not defined");
-      return;
-    }
-
     try {
       const response = await axios.post(
-        `${backendUrl}/api/users/login`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
         data,
         {
           withCredentials: true, // Set to true to allow cookies to be sent with the request
@@ -118,6 +113,9 @@ const LoginPage = () => {
                   {errors.password.message}
                 </p>
               )}
+            </div>
+            <div className="space-y-2">
+              <Link href='/forgot-password'>Forgot Password?</Link>
             </div>
             <Button type="submit" className="w-full">
               Sign In

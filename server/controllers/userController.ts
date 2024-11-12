@@ -3,9 +3,13 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/userSchema";
 import { signUpSchema, signInSchema } from "../lib/userType";
+import { EmailParams, Sender, Recipient } from "mailersend";
+import { mailerSend } from "../lib/mailersendConfig";
+import { getForgotPasswordEmail } from "../lib/emailTemplate";
 
 // JWT secret
 const JWT_SECRET = process.env.JWT_SECRET || "taskflow_bdw0w";
+
 
 // Register (Sign Up) a new user
 export const signUp = async (req: Request, res: Response) => {
@@ -65,9 +69,6 @@ export const signIn = async (req: Request, res: Response) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        // domain: 'http://localhost:3000',
-        // sameSite: "none",
-        // secure: true,
         secure: process.env.NODE_ENV === "production" ? true : false,
       })
       .json({
@@ -122,3 +123,105 @@ export const getUserProfile = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error fetching user profile", error });
   }
 };
+
+// Reset user password 
+export const forgotPassword = async (req: Request, res: Response) => {
+  const { email } = req.body
+
+  try {
+    const user = await User.findOne({ email });
+    console.log(user)
+
+    if (!user) {
+      return res
+        .status(403)
+        .json({
+          message: "User does not exist"
+        })
+    }
+
+    // Generate JWT
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    // Send the reset token to the user's email
+    const sentFrom = new Sender("MS_obeuxU@trial-jpzkmgqrq9v4059v.mlsender.net", "Mohamed Musthafa");
+    const recipients = [
+      new Recipient(user.email, user?.username)
+    ];
+    const emailParams = new EmailParams()
+      .setFrom(sentFrom)
+      .setTo(recipients)
+      .setReplyTo(sentFrom)
+      .setSubject("Reset Password")
+      .setHtml(getForgotPasswordEmail(email, token))
+
+    await mailerSend.email.send(emailParams);
+    res
+      .status(200)
+      .cookie("pw-reset", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production" ? true : false
+      })
+      .send({
+        token: token,
+        message: 'Check your email for instructions on resetting your password'
+      });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Error resettig password", error });
+  }
+}
+
+// Reset user password 
+export const resetPassword = async (req: Request, res: Response) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    // Check if token is expired
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log(decoded)
+    const { userId } = decoded as { userId: string };
+    const user = await User.findById(userId)
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      user?._id,
+      {
+        $set: {
+          password: hashedPassword
+        }
+      }
+    )
+    updatedUser?.save()
+    res
+      .status(200)
+      .json({
+        message: "Password successfully updated"
+      })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Error resettig password", error });
+  }
+}
+
+// signout user 
+export const signout = async (req: Request, res: Response) => {
+  try {
+    res
+      .status(200)
+      .clearCookie("token", { httpOnly: true, secure: process.env.NODE_ENV === 'production' ? true : false })
+      .json({
+        message: "Password successfully updated"
+      })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Error resettig password", error });
+  }
+}
