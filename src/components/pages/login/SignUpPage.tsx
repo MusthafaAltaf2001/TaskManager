@@ -1,18 +1,17 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { signUpSchema } from "@/lib/validationSchema";
-import { z } from "zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import {  useSession } from "next-auth/react";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import React from "react";
 import axios from "axios";
+import { signUpSchema } from "@/schema";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-// import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type SignUpFormValues = z.infer<typeof signUpSchema>;
 
@@ -69,7 +68,7 @@ const SignUpPage = () => {
               <Label htmlFor="username">User Name</Label>
               <Input
                 id="username"
-                placeholder="ayushw0w"
+                placeholder="john"
                 {...register("username")}
                 className={`border ${errors.username ? "border-red-500" : ""}`}
               />
@@ -84,7 +83,7 @@ const SignUpPage = () => {
               <Input
                 type="email"
                 id="email"
-                placeholder="ayushpandey@gmail.com"
+                placeholder="john@example.com"
                 {...register("email")}
                 className={`border ${errors.email ? "border-red-500" : ""}`}
               />
@@ -107,22 +106,6 @@ const SignUpPage = () => {
                 </p>
               )}
             </div>
-            {/* <div className="flex items-center space-x-2">
-              <Checkbox id="terms" {...register("terms")} />
-              <label htmlFor="terms" className="text-sm text-muted-foreground">
-                I agree to the{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Terms of Service
-                </a>{" "}
-                and{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Privacy Policy
-                </a>
-              </label>
-              {errors.terms && (
-                <p className="text-xs text-red-400">{errors.terms.message}</p>
-              )}
-            </div> */}
             <Button type="submit" className="w-full">
               Create Account
             </Button>

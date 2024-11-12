@@ -1,14 +1,14 @@
 "use client";
 
+import { API_URLS } from "@/constants";
 import { SessionProvider } from "next-auth/react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/app/store/slices/userSlice";
-import { setTasks } from "@/app/store/slices/taskSlice";
 import { Toaster } from "@/components/ui/toaster";
-import { useRouter } from "next/navigation";
 import axios from "axios";
-import { API_URLS } from "@/lib/constants";
+import { setTasks } from "@/app/store/slices/taskSlice";
+import { setUser } from "@/app/store/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();

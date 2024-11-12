@@ -1,22 +1,22 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
-import TaskList from "./components/TaskList";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-// import * as z from "zod";
-import { TaskFormValues } from "@/lib/task";
-import { taskSchema } from "@/lib/taskValidationSchema";
-import { useToast } from "@/hooks/use-toast";
-import TaskCreationForm from "./components/TaskCreationForm";
-import { Task } from "@/lib/task";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
+import React, { useCallback, useState } from "react";
 import { addTask, updateTask } from "@/app/store/slices/taskSlice";
-import { useDispatch } from "react-redux";
-import { undo } from "redux-undo-action";
+import { addTaskApi, updateTaskApi } from "@/api/task";
+
 import { Player } from '@lottiefiles/react-lottie-player';
+import { RootState } from "@/app/store/store";
+import { Task } from "@/types";
+import TaskCreationForm from "./components/TaskCreationForm";
+import { TaskFormValues } from "@/types";
+import TaskList from "./components/TaskList";
+import { taskSchema } from "@/schema/task";
+import { undo } from "redux-undo-action";
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Kanban = () => {
   // const [tasks, setTasks] = useState<Task[]>([]);
@@ -44,8 +44,6 @@ const Kanban = () => {
     resolver: zodResolver(taskSchema),
   });
   const selectedDate = watch("dueDate");
-
-  console.log("formState error - ", errors);
   console.log(selectedDate);
 
   const addOrUpdateTask = async (data: TaskFormValues) => {
@@ -65,13 +63,7 @@ const Kanban = () => {
       dispatch(updateTaskAction)
 
       try {
-        await axios.put(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tasks/${newTask._id}`,
-          newTask,
-          {
-            withCredentials: true
-          }
-        )
+        updateTaskApi(newTask)
         toast({
           title: "Success",
           description: "Successfully updated task",
@@ -101,23 +93,17 @@ const Kanban = () => {
 
       const addTaskAction = addTask(newTask)
       dispatch(addTaskAction)
-
       try {
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tasks/`,
-          newTask,
-          {
-            withCredentials: true
-          }
-        )
+        await addTaskApi(newTask)
         toast({
           title: "Success",
           description: "Successfully added task",
           variant: "default",
         });
       } catch (error) {
-        // Todo: if task update failed, revert to previous state
         console.log(error)
+        console.log(errors)
+        // If task update failed, revert to previous state
         toast({
           title: "Error",
           description: "Failed to add task",
@@ -132,7 +118,6 @@ const Kanban = () => {
     setEditingTask(null);
   };
 
-  // Sorting and filtering logic based on filterCriteria
   // Sorting and filtering logic based on filterCriteria
   const sortedTasks = tasks
     .filter((task: Task) => {
@@ -183,13 +168,6 @@ const Kanban = () => {
     setValue("priority", task.priority);
     setValue("dueDate", task.dueDate);
   };
-
-  /* const saveEditedTask = (updatedTask: Task) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
-    );
-    setIsModalOpen(false);
-  }; */
 
   const editTask = useCallback(
     (task: Task) => {

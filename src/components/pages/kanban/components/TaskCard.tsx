@@ -2,7 +2,7 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Calendar, CheckCircle, Trash, Edit2 } from "lucide-react";
-import { Task } from "@/lib/task";
+import { Task } from "@/lib/Task.1";
 
 interface TaskCardProps {
   task: Task;

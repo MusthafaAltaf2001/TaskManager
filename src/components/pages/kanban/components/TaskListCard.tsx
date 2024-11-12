@@ -1,12 +1,12 @@
 import React from "react";
 import { Calendar, CheckCircle, Trash, Edit2 } from "lucide-react";
-import { Task } from "@/lib/task";
-import { formatDate } from "@/lib/utils";
+import { Task } from "@/types";
+import { formatDate } from "@/utils";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 import { deleteTask, updateTask } from "@/app/store/slices/taskSlice";
 import { useToast } from "@/hooks/use-toast";
 import { undo } from "redux-undo-action";
+import { deleteTaskApi, updateTaskApi } from "@/api/task";
 
 interface TaskCardProps {
   task: Task;
@@ -33,20 +33,14 @@ const TaskListCard: React.FC<TaskCardProps> = ({
     dispatch(updateTaskAction)
 
     try {
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tasks/${task._id}`,
-        newTask,
-        {
-          withCredentials: true
-        }
-      )
+      updateTaskApi(newTask)
       toast({
         title: "Success",
         description: "Successfully deleted task",
         variant: "default",
       });
     } catch (error) {
-      // Todo: if task update failed, revert to previous state
+      // If task update failed, revert to previous state
       console.log(error)
       toast({
         title: "Error",
@@ -70,12 +64,7 @@ const TaskListCard: React.FC<TaskCardProps> = ({
     dispatch(deleteTaskAction)
 
     try {
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tasks/${task._id}`,
-        {
-          withCredentials: true
-        }
-      )
+      deleteTaskApi(task)
       toast({
         title: "Success",
         description: "Successfully deleted task",

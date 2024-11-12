@@ -2,7 +2,7 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import { Task } from "@/lib/task";
+import { Task } from "@/lib/Task.1";
 
 interface ContainerProps {
   id: string;

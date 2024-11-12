@@ -3,9 +3,9 @@ import { twMerge } from "tailwind-merge"
 import moment from "moment"
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs))
 }
 
 export function formatDate(date: Date) {
-  return moment(date).format("MMMM Do YYYY")
+    return moment(date).format("MMMM Do YYYY")
 }

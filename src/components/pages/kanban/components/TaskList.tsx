@@ -1,6 +1,6 @@
 import React from "react";
 import TaskListCard from "./TaskListCard";
-import { Task } from "@/lib/task";
+import { Task } from "@/lib/Task.1";
 
 type TaskListProps = {
   tasks: Task[];

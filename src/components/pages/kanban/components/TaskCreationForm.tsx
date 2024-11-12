@@ -1,18 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { CalendarIcon, Plus } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -25,10 +14,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import React, { useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Task, TaskFormValues } from "@/types";
+
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
-import { CalendarIcon, Plus } from "lucide-react";
-import { taskSchema } from "@/lib/taskValidationSchema";
-import { Task, TaskFormValues } from "@/lib/task";
+import { taskSchema } from "@/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type StatusType = "To Do" | "In Progress" | "Completed";
 type PriorityType = "Low" | "Medium" | "High";

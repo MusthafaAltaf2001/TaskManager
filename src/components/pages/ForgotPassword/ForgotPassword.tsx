@@ -1,17 +1,18 @@
 'use client'
 
-import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import React from 'react'
 import axios from 'axios'
+import { forgotPasswordSchema } from '@/schema';
 import { useForm } from 'react-hook-form';
-import { forgotPasswordSchema } from '@/lib/validationSchema';
+import { useRouter } from 'next/navigation';
+import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from 'next/navigation';
 
 type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 
@@ -43,12 +44,12 @@ const ForgotPassword = () => {
                 variant: "default",
             });
             router.push('/reset-password')
-        } catch (error) {
+        } catch (error: any) {
             console.log(error)
             // Handle error
             setError("email", {
                 type: "manual",
-                message: error?.response?.data.message || error.message
+                message: error?.response?.data.message || error?.message
             })
             if (axios.isAxiosError(error)) {
                 console.error(

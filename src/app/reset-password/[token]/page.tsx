@@ -1,10 +1,14 @@
-import ResetPassword from '@/components/pages/ResetPassword/ResetPassword'
 import React from 'react'
+import ResetPassword from '@/components/pages/ResetPassword/ResetPassword'
 
-const page = ({ params }: { params: string }) => {
-    console.log(params)
+const page = ({ params }: { params: { token: string } }) => {
+
+    if (!params.token) {
+        return
+    }
+
     return (
-        <ResetPassword token={params?.token} />
+        <ResetPassword token={params.token} />
     )
 }
 
