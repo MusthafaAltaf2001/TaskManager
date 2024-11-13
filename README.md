@@ -1,5 +1,23 @@
 # Task Manager
 
+### Setting up development environment
+
+-   Clone repository into your local machine
+-   Download the provided .env files
+
+-   **Frontend**
+
+    -   Copy the .env file from the frontend folder into the root of the local repository
+    -   Run the command `npm install` to install all dependencies
+    -   run the command ``npm run dev` to start the local server
+
+-   **Backend**
+
+    -   Navigate to the server folder
+    -   Copy the .env file from the backend folder into the server folder of the local repository
+    -   Run the command `npm install` to install all dependencies
+    -   Run the command `npm run dev` to start the local server
+
 ### Tech Stack
 
 -   **Frontend:**
