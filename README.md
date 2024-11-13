@@ -46,6 +46,7 @@
         -   Due Date (date, optional)
     -   Tasks can be filterable and sortable by status, priority, and due date.
     -   User will be notified via email when a task is due in 24 hours
+    -   Display audit logs for when task was created, updated and deleted
 
 3.  **Task List Screen:**
 
