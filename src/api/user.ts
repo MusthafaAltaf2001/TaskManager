@@ -35,9 +35,9 @@ export const forgotPasswordApi = async (data: string) => {
     }
 }
 
-export const resetPasswordApi = async (data: LoginFormValues) => {
+export const resetPasswordApi = async (data: string, token: string) => {
     try {
-        const response = await axiosInstance.post(`/api/users/resetPassword`, data);
+        const response = await axiosInstance.post(`/api/users/resetPassword/${token}`, data);
         return response.data
     } catch (error) {
         throw error

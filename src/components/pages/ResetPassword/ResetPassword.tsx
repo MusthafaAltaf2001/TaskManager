@@ -30,8 +30,9 @@ const ResetPassword = ({ token }: { token: string }) => {
     const router = useRouter()
 
     const onSubmit = async (data: string) => {
+        debugger;
         try {
-            await resetPasswordApi(data)
+            await resetPasswordApi(data, token)
             toast({
                 title: "Success",
                 description: "Your password has been reset successfully",
@@ -68,11 +69,11 @@ const ResetPassword = ({ token }: { token: string }) => {
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">New Password</Label>
                             <Input
                                 type="password"
                                 id="password"
-                                placeholder="Enter your password"
+                                placeholder="Enter your New password"
                                 {...register("password")}
                                 className={`border ${errors.password ? "border-red-500" : ""}`}
                             />
