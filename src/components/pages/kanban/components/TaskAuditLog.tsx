@@ -1,4 +1,4 @@
-import { CheckCircle2, Circle, Clock, RefreshCcw } from 'lucide-react'
+import { CheckCircle2, Circle, RefreshCcw } from 'lucide-react'
 import {
     Dialog,
     DialogContent,
@@ -28,19 +28,6 @@ const TaskAuditLog = ({ task }: { task: Task }) => {
                         {task.title} Audit Log
                     </DialogTitle>
                 </DialogHeader>
-                {/* <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700" /> */}
-                {/* <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                        {formatDate(entry.timestamp)}
-                    </time> */}
-                {/* <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center space-x-2">
-                        {getEventIcon(entry.event)}
-                        <span className="capitalize">{entry.event}</span>
-                    </h3> */}
-                {/* {entry.event === 'updated' && index > 0 && (
-                        <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-                            Task was updated
-                        </p>
-                    )} */}
                 <ol className="relative border-l border-gray-200 dark:border-gray-700">
                     <li className="mb-10 ml-4 flex-row flex gap-2 items-center">
                         <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700" />
@@ -52,7 +39,6 @@ const TaskAuditLog = ({ task }: { task: Task }) => {
 
                     <li className="mb-10 ml-4 flex-row flex gap-2 items-center">
                         <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700" />
-                        {/* <CheckCircle2 className="h-4 w-4 text-purple-500" /> */}
                         <RefreshCcw className="h-4 w-4 text-blue-500" />
                         <p className="text-base font-normal text-gray-500 dark:text-gray-400">
                             Task updated at {formatDate(task.updatedAt)}
@@ -71,17 +57,6 @@ const TaskAuditLog = ({ task }: { task: Task }) => {
             </DialogContent>
         </Dialog >
     )
-}
-
-const getEventIcon = (event: string) => {
-    switch (event) {
-        case 'created':
-            return
-        case 'updated':
-            return <RefreshCcw className="h-4 w-4 text-blue-500" />
-        default:
-            return <Clock className="h-4 w-4 text-gray-500" />
-    }
 }
 
 export default TaskAuditLog
