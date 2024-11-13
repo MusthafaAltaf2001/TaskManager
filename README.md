@@ -71,11 +71,10 @@
 
 7.  **Deployment:**
 
-    -   Deploy the app on Vercel and ensure that it is fully functional.
-    -   Test credentials:
-        -   Username: zorojoro@gmail.com
-        -   Password: 12345678
-    -   Please check out my website and share your feedback!
+    -   Go to vercel.com, connect this repository to a vercel account.
+    -   Add in the necessary environment variables.
+    -   Click deploy.
+    -   Upon successful deployment, every push to the master branch will be an attempt to deploy the code to vercel
 
 8.  **Code Quality:**
 
