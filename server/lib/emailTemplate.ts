@@ -43,7 +43,7 @@ export function getForgotPasswordEmail(email: string, token: string) {
             <div class="container">
                 <p>Hello,</p>
                 
-                <p>Follow this link to reset your Petville password for your <strong>${email}</strong> account.</p>
+                <p>Follow this link to reset your Task manager password for your <strong>${email}</strong> account.</p>
                 
                 <a href="http://localhost:3000/reset-password/${token}" class="button">Reset your password</a>
                 
