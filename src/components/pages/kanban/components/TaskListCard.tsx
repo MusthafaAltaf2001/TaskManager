@@ -1,12 +1,14 @@
-import React from "react";
-import { Calendar, CheckCircle, Trash, Edit2 } from "lucide-react";
-import { Task } from "@/types";
-import { formatDate } from "@/utils";
-import { useDispatch } from "react-redux";
+import { Calendar, CheckCircle, Edit2, Trash } from "lucide-react";
 import { deleteTask, updateTask } from "@/app/store/slices/taskSlice";
-import { useToast } from "@/hooks/use-toast";
-import { undo } from "redux-undo-action";
 import { deleteTaskApi, updateTaskApi } from "@/api/task";
+
+import React from "react";
+import { Task } from "@/types";
+import TaskAuditLog from "./TaskAuditLog";
+import { formatDate } from "@/utils";
+import { undo } from "redux-undo-action";
+import { useDispatch } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
 
 interface TaskCardProps {
   task: Task;
@@ -22,11 +24,11 @@ const TaskListCard: React.FC<TaskCardProps> = ({
   const { toast } = useToast()
 
   const handleDoneClick = async (task: Task) => {
-    debugger;
 
     const newTask = {
       ...task, // Start from the editing task
       status: 'Completed' as Task["status"],
+      completedAt: new Date()
     };
 
     const updateTaskAction = updateTask(newTask)
@@ -82,6 +84,7 @@ const TaskListCard: React.FC<TaskCardProps> = ({
     }
   }
 
+
   return (
     <div className="w-full max-w-none bg-white rounded-xl shadow-md p-4 mb-2 border border-gray-100 hover:border-gray-200 transition-all duration-300 ease-in-out">
       <div className="flex flex-col h-full">
@@ -130,6 +133,10 @@ const TaskListCard: React.FC<TaskCardProps> = ({
               className="text-gray-400 hover:text-blue-500 transition-colors duration-200 p-1 rounded-full hover:bg-blue-50"
             >
               <Edit2 size={18} />
+            </button>
+            <button>
+              <TaskAuditLog task={task}
+              />
             </button>
             <button
               onClick={() => handleDoneClick(task)}

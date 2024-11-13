@@ -45,6 +45,7 @@
         -   Priority (enum: "Low", "Medium", "High")
         -   Due Date (date, optional)
     -   Tasks can be filterable and sortable by status, priority, and due date.
+    -   User will be notified via email when a task is due in 24 hours
 
 3.  **Task List Screen:**
 

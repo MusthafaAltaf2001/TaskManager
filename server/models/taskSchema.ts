@@ -41,6 +41,10 @@ const taskSchema: Schema = new mongoose.Schema({
   dueDate: {
     type: Date,
   },
+  completedAt: {
+    type: Date,
+    default: null
+  },
   isDeleted: {
     type: Boolean,
     default: false
@@ -50,5 +54,7 @@ const taskSchema: Schema = new mongoose.Schema({
     default: false
   }
 });
+
+taskSchema.set("timestamps", true);
 
 export const Task = mongoose.model<ITask>("Task", taskSchema);

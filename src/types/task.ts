@@ -7,6 +7,9 @@ export interface Task {
     status: "To Do" | "In Progress" | "Completed";
     priority: "Low" | "Medium" | "High";
     dueDate?: Date;
+    completedAt?: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface TaskFormValues {
