@@ -97,12 +97,6 @@ export const getUserProfile = async (req: Request, res: Response) => {
     // Find the user by ID and populate the tasks. Get all the tasks that are not deleted
     const user = await User.findById(userId)
       .select("-password")
-      .populate({
-        path: "tasks",
-        match: {
-          isDeleted: { $ne: true } // Gets all the tasks that are not deleted
-        }
-      });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -117,7 +111,6 @@ export const getUserProfile = async (req: Request, res: Response) => {
           username: user.username,
           email: user.email,
         },
-        tasks: user.tasks,
       });
   } catch (error) {
     console.log(error)

@@ -60,3 +60,64 @@ export function getForgotPasswordEmail(email: string, token: string) {
         </html>
     `
 }
+
+export function getTaskDueSoonEmail() {
+    return `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Password Reset</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    color: #333333;
+                    line-height: 1.6;
+                    padding: 20px;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                }
+                .button {
+                    display: inline-block;
+                    padding: 10px 15px;
+                    color: #ffffff;
+                    background-color: #007bff;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    margin-top: 20px;
+                }
+                .button:hover {
+                    background-color: #0056b3;
+                }
+                .footer {
+                    margin-top: 20px;
+                    font-size: 12px;
+                    color: #666666;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <p>Hello,</p>
+                
+                <p>Your Task is due soon</p>
+
+                <p>Please check your Task Manager app</p>
+                                                
+                <p>Thanks,</p>
+                <p>Task Manager team</p>
+                
+                <div class="footer">
+                    <p>Please do not reply to this email. This inbox is not monitored.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    `
+}

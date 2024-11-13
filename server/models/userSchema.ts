@@ -1,11 +1,10 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 // User interface with tasks
 interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  tasks: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,12 +25,6 @@ const userSchema: Schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tasks: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Task",
-    },
-  ],
 });
 
 // Export User Models

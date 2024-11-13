@@ -2,6 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
+import { getTasksApi } from "@/api";
 import { getUserProfileApi } from "@/api";
 import { setTasks } from "@/app/store/slices/taskSlice";
 import { setUser } from "@/app/store/slices/userSlice";
@@ -18,7 +19,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   const fetchUserProfile = async () => {
     try {
-      const { user, tasks } = await getUserProfileApi()
+      const { user } = await getUserProfileApi()
+      const tasks = await getTasksApi()
       dispatch(setUser(user))
       dispatch(setTasks(tasks))
     } catch (error) {

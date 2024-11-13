@@ -1,8 +1,11 @@
+import { EmailParams, Recipient, Sender } from "mailersend";
 import { Request, Response } from "express";
 
 import { Task } from "../models/taskSchema";
 import { User } from "../models/userSchema";
 import { ZodError } from "zod";
+import { getTaskDueSoonEmail } from "../lib/emailTemplate";
+import { mailerSend } from "../lib/mailersendConfig";
 import { taskSchema } from "../lib/taskType";
 
 // Create a new task
@@ -10,7 +13,6 @@ export const createTask = async (req: Request, res: Response) => {
   try {
     // Validate request body
     const validatedTask = taskSchema.parse(req.body);
-    console.log(validatedTask)
 
     //@ts-ignore
     const userId = req.user?.userId;
@@ -18,11 +20,10 @@ export const createTask = async (req: Request, res: Response) => {
     // Create task
     const newTask = new Task({
       ...validatedTask,
-      user: userId,
+      userId: userId
     });
 
     const task = await newTask.save();
-    await User.findByIdAndUpdate(userId, { $push: { tasks: task._id } });
     res.status(201).json(task);
   } catch (error) {
     if (error instanceof ZodError) {
@@ -57,13 +58,6 @@ export const updateTask = async (req: Request, res: Response) => {
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
-
-    // Optionally, push the updated task reference into the user's tasks array (if needed)
-    await User.findByIdAndUpdate(
-      userId,
-      { $addToSet: { tasks: updatedTask._id } }, // Use $addToSet to avoid duplicates
-      { new: true }
-    );
 
     res.status(200).json(updatedTask);
   } catch (error) {
@@ -114,18 +108,16 @@ export const getUserTasks = async (req: Request, res: Response) => {
     //@ts-ignore
     const userId = req.user?.userId;
 
-    const user = await User.findById(userId).populate({
-      path: "tasks",
-      match: {
-        isDeleted: { $ne: true } // Gets all the tasks that are not deleted
-      }
+    const tasks = await Task.find({
+      userId: userId,
+      isDeleted: false
     })
-    if (!user) {
+    if (!tasks) {
       return res.status(404).json({ message: "User not found" });
     }
 
 
-    res.status(200).json(user.tasks);
+    res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: "Error fetching tasks", error });
   }
@@ -148,3 +140,49 @@ export const getSingleTask = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error fetching task", error });
   }
 };
+
+export const getTasksDueIn24Hours = async () => {
+  const now = new Date();
+  const next24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  // Find tasks due within the next 24 hours
+  const tasksDueSoon = await Task.find({
+    dueDate: { $lte: next24Hours, $gte: now },
+    isNotified: false
+  });
+
+  if (tasksDueSoon.length > 0) {
+    tasksDueSoon.forEach(async (task) => {
+
+      try {
+        // Get user from database
+        const user = await User.findById(task.userId);
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Send email to notify the user about the task due soon
+        const sentFrom = new Sender("MS_obeuxU@trial-jpzkmgqrq9v4059v.mlsender.net", user?.username);
+        const recipients = [
+          new Recipient(user.email, user?.username)
+        ];
+        const emailParams = new EmailParams()
+          .setFrom(sentFrom)
+          .setTo(recipients)
+          .setReplyTo(sentFrom)
+          .setSubject(`Task due soon: ${task.title}`)
+          .setHtml(getTaskDueSoonEmail())
+
+        await mailerSend.email.send(emailParams);
+      } catch (error) {
+        throw error
+      }
+
+    });
+
+    // Set isNotified to true for the tasks that were notified
+    tasksDueSoon.forEach(async (task) => {
+      await Task.findOneAndUpdate({ _id: task._id }, { isNotified: true });
+    });
+  }
+}
